@@ -29,7 +29,6 @@ build:
         code: |
           ls
           ./hello > testResults.txt
-          ls
           cat testResults.txt
           echo '-------- copy test results to WERCKER_REPORT_ARTIFACTS_DIR: -------'
           ls -l $WERCKER_REPORT_ARTIFACTS_DIR
