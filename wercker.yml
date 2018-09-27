@@ -1,0 +1,37 @@
+# This references the default golang container from
+# the Docker Hub: https://registry.hub.docker.com/u/library/golang/
+# If you want Google's container you would reference google/golang
+# Read more about containers on our dev center
+# http://devcenter.wercker.com/docs/containers/index.html
+box: golang
+
+build:
+  # The steps that will be executed on build
+  # Steps make up the actions in your pipeline
+  # Read more about steps on our dev center:
+  # http://devcenter.wercker.com/docs/steps/index.html
+  steps:
+    - script:
+        name: build
+        code: |
+          ls
+          go build -o hello
+          pwd
+          echo "hello!" > buildResults.txt
+          ls
+          echo '-------- copy build results to WERCKER_REPORT_ARTIFACTS_DIR: -------'
+          ls -l $WERCKER_REPORT_ARTIFACTS_DIR
+          cp ./hello $WERCKER_REPORT_ARTIFACTS_DIR
+          cp ./buildResults.txt $WERCKER_REPORT_ARTIFACTS_DIR
+          ls -l $WERCKER_REPORT_ARTIFACTS_DIR
+    - script:
+        name: test
+        code: |
+          ls
+          ./hello > testResults.txt
+          ls
+          cat testResults.txt
+          echo '-------- copy test results to WERCKER_REPORT_ARTIFACTS_DIR: -------'
+          ls -l $WERCKER_REPORT_ARTIFACTS_DIR
+          cp ./testResults.txt $WERCKER_REPORT_ARTIFACTS_DIR
+          ls -l $WERCKER_REPORT_ARTIFACTS_DIR
